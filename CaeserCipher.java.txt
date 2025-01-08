@@ -1,0 +1,88 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package az_array;
+
+/**
+ *
+ * @author Karzan_Jaza
+ */import java.util.Scanner;
+
+public class CaeserCipher {
+   public static void main(String[] args) {
+       System.out.println("1. Encryption\n2. Decryption \n Choose (1,2):");
+         Scanner in =new Scanner (System.in);
+         int choice = in.nextInt();
+         if (choice ==1){
+             System.out.println("Encryption");
+             in.nextLine(); // to pass empty line to scanner to avoid error
+             
+             System.out.println("Message can only be lower or UPPER case alphabet");
+             System.out.println("Enter Your Message");
+             String msg =in.nextLine(); //ABC
+             
+             System.out.println("Enter key (0 - 25: ");
+             int key= in.nextInt(); //1
+              String encryptMsg = "";
+             
+                  for (int i=0; i<msg.length(); i++){ //ABC
+                 // Casting char to int && int to char
+                 if ((int)msg.charAt(i)==32){  //A
+                     encryptMsg += (char)32; // ignoring space
+                 }else if ((int)msg.charAt(i)+key > 122){ //xyz
+                     
+                     int temp = ((int)msg.charAt(i)+key)-122; //2
+                     encryptMsg += (char)(96 + temp);
+                     
+                 }else if((int)msg.charAt(i)+key>90 && (int)msg.charAt(i) <91){
+                     // UPPER CASE
+                     int temp =((int)msg.charAt(i)+key)-90;
+                     encryptMsg += (char)(64 + temp);
+                 }else {
+                     encryptMsg += (char)((int)msg.charAt(i)+key); //
+                 }
+                  }// end of for loop
+                 System.out.println(encryptMsg);
+           
+          // Decryption 
+          
+         }else if (choice ==2){
+           System.out.println("Decryption");
+             in.nextLine(); // to pass empty line to scanner to avoid error
+             
+             System.out.println("Message can only be lower or UPPER case alphabet");
+             System.out.println("Enter Your encrypted Text");
+             String cipehrTxt =in.nextLine();
+             
+             System.out.println("Enter key (0 - 25: ");
+             int d_key= in.nextInt();
+             
+             String decryptMsg = "";  
+             for (int i=0; i<cipehrTxt.length(); i++){
+                 // Casting char to int && int to char
+                 if ((int)cipehrTxt.charAt(i)==32){
+                     decryptMsg += (char)32; // ignoring space
+                     
+                 }else if ((int)(cipehrTxt.charAt(i)- d_key) < 97 &&(int)(cipehrTxt.charAt(i)- d_key) > 90){
+                     // lower case
+                     int temp = ((int)cipehrTxt.charAt(i)- d_key)+26;
+                     decryptMsg += (char) temp;
+                     
+                 }else if ((int)cipehrTxt.charAt(i) - d_key <65){
+                      // UPPER CASE
+                     int temp =((int)cipehrTxt.charAt(i) - d_key) + 26;
+                     decryptMsg += (char) temp;
+                 }else {
+                     decryptMsg += (char)((int)cipehrTxt.charAt(i)- d_key);
+                 }
+             }// end for loop
+             
+             System.out.println(decryptMsg);
+             
+             
+         }else {
+            System.out.println("Wrong Coice!!"); 
+         }   
+    } 
+}
