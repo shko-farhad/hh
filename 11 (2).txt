@@ -1,0 +1,227 @@
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.nio.FloatBuffer;
+
+import javax.media.opengl.GL2;
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLEventListener;
+import javax.media.opengl.awt.*;
+import javax.swing.JFrame;
+
+import com.jogamp.opengl.util.Animator;
+
+public class Transformation_2D extends JFrame implements GLEventListener, MouseListener, KeyListener {
+	
+	double tx, sx, sy, angle;
+	
+	public Transformation_2D(String title) {
+		
+		super(title);
+		
+		GLCanvas canvas = new GLCanvas();
+		Animator animator = new Animator(canvas);
+		animator.start();
+		
+		canvas.setSize(600, 400);
+		canvas.addGLEventListener(this);
+		canvas.addMouseListener(this);
+		canvas.addKeyListener(this);
+		add(canvas);
+		pack();
+
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocation(200, 200);
+		
+		setVisible(true);
+		canvas.requestFocus();
+		
+	}
+	
+ 
+	
+	public static void main(String[] args) {
+		
+		new Transformation_2D("First Lab");
+
+	}
+
+	@Override
+	public void display(GLAutoDrawable drawable) {
+		 
+		GL2 gl = drawable.getGL().getGL2();
+		
+		gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+		gl.glLoadIdentity();
+		
+		
+		gl.glColor3f(1.0f, 0.0f, 0.0f);
+		
+		
+		
+	   // gl.glBegin(GL2.GL_POLYGON);
+		
+		//gl.glVertex2i(90+moveX, 60);  //[0.3, 0.3, 0, 1]
+		//gl.glVertex2i(-90+moveX, 60);  //[0.3, 0.3, 0, 1]
+		//gl.glVertex2i(-90+moveX, -60);  //[0.3, 0.3, 0, 1]
+		//gl.glVertex2i(90+moveX, -60);  //[0.3, 0.3, 0, 1]
+		//gl.glEnd();
+		
+		//moveX+=1;
+		 
+		//gl.glTranslated(tx, 60, 0);
+		
+		//gl.glScaled(sx, sy, 1);
+		gl.glRotated(angle, 0, 1, 0);
+		 gl.glBegin(GL2.GL_POLYGON);
+		
+		 gl.glVertex2i(90, 60);  //[0.3, 0.3, 0, 1]
+		 gl.glVertex2i(-90, 60);  //[0.3, 0.3, 0, 1]
+		gl.glVertex2i(-90, -60);  //[0.3, 0.3, 0, 1]
+		gl.glVertex2i(90, -60);  //[0.3, 0.3, 0, 1]
+		gl.glEnd();
+		//sx+=0.0002;
+		//sy+=0.0003;
+		//tx+=0.1;
+		//angle+=0.01;
+		}
+		
+		 
+		
+	
+
+	@Override
+	public void dispose(GLAutoDrawable drawable) {
+		// TODO Auto-generated method stub
+		
+		//System.out.println("dispose()");
+	}
+
+	@Override
+	public void init(GLAutoDrawable drawable) {
+		// TODO Auto-generated method stub
+		//System.out.println("init()");
+		tx = 0;
+		sx = sy = 1;
+		angle = 0;
+		GL2 gl = drawable.getGL().getGL2();
+		//gl.glClearColor((255.0f/255.0f), .0f, .0f, .0f);
+		
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		//
+		gl.glOrtho(-300, 300, -200, 200, -1, 1);
+		
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+
+ 
+		
+		
+	}
+
+	@Override
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+		// TODO Auto-generated method stub
+		//System.out.println("reshape()");
+		
+		
+		
+	}
+
+
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("mouseClicked");
+		
+	 
+	
+	}
+
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("mouseEntered");
+ 
+		
+	}
+
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("mouseExited");
+		
+ 
+	}
+
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("mousePressed");
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("mouseReleased");
+		
+	}
+
+
+
+	@Override
+	public void keyPressed(KeyEvent ke) {
+		// TODO Auto-generated method stub
+		
+		if(ke.getKeyChar() == 'd') {
+			tx++;
+		}
+	   if(ke.getKeyChar() == 'a') {
+			tx--;
+		}
+	   
+	   if(ke.getKeyChar() == 'l' && sx<1.5) {
+			sx+=0.1;
+		}
+	   if(ke.getKeyChar() == 'L') {
+			sx-=0.1;
+		}
+	   
+	   if(ke.getKeyChar() == 'r') {
+		   angle+=0.1;
+			}
+	   if(ke.getKeyChar() == 'R') {
+		   angle-=0.1;
+			}
+	}
+
+
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
+
+
