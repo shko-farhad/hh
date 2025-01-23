@@ -1,0 +1,183 @@
+/*
+======>>>>>> Nawy class'aka bgora bo nawy syani xot
+======>>>>>> bo nmuna (( Ahmad_Ali_Husen))
+*/
+
+import java.awt.*; // Importing AWT classes for GUI components
+import javax.swing.*; // Importing Swing classes for GUI components
+import java.awt.event.*; // Importing AWT event classes for handling events
+import java.nio.ByteBuffer; // Importing ByteBuffer for handling image data
+import javax.media.opengl.*; // Importing JOGL classes for OpenGL
+import javax.media.opengl.awt.*; // Importing JOGL classes for AWT integration
+import com.jogamp.opengl.util.*; // Importing JOGL utility classes
+
+class Exam_Template implements GLEventListener, KeyListener, MouseListener {
+    // Class declaration: Exam_Template implements GLEventListener, KeyListener, and MouseListener
+
+    JFrame frame; // JFrame for the main window
+    GLCanvas canvas; // GLCanvas for OpenGL rendering
+    Animator animator; // Animator for continuous rendering
+
+    public Exam_Template() {
+        // Constructor for initializing the application
+
+        frame = new JFrame("Final Exam"); // Create a new JFrame with the title "Final Exam"
+        frame.setLocation(200, 200); // Set the location of the JFrame
+
+        canvas = new GLCanvas(); // Create a new GLCanvas for OpenGL rendering
+        canvas.setSize(600, 400); // Set the size of the canvas
+        canvas.addGLEventListener(this); // Add this class as a GLEventListener to the canvas
+        canvas.addKeyListener(this); // Add this class as a KeyListener to the canvas
+        canvas.addMouseListener(this); // Add this class as a MouseListener to the canvas
+
+        animator = new Animator(canvas); // Create an Animator for the canvas
+        animator.start(); // Start the animator for continuous rendering
+
+        frame.add(canvas); // Add the canvas to the JFrame
+        frame.pack(); // Pack the components within the JFrame
+        frame.setVisible(true); // Make the JFrame visible
+        canvas.requestFocus(); // Request focus for the canvas to receive key events
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE); // Set the default close operation
+    }
+
+    public void init(GLAutoDrawable drawable) {
+        // This method is called when the OpenGL context is initialized
+
+        GL2 gl = drawable.getGL().getGL2(); // Get the GL2 object for rendering
+
+        gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Set the background color to black
+
+        gl.glMatrixMode(GL2.GL_PROJECTION); // Set the matrix mode to projection
+        gl.glOrtho(-300, 300, -200, 200, -100, 100); // Set the orthographic projection
+        gl.glMatrixMode(GL2.GL_MODELVIEW); // Switch back to modelview matrix mode
+    }
+
+    public void display(GLAutoDrawable drawable) {
+        // This method is called to render the scene
+
+        GL2 gl = drawable.getGL().getGL2(); // Get the GL2 object for rendering
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT); // Clear the color buffer
+        gl.glLoadIdentity(); // Load the identity matrix to reset transformations
+
+        // Here you would typically add drawing code to render your scene
+
+        gl.glFlush(); // Flush the OpenGL commands to the rendering pipeline
+    }
+
+    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+        // This method is called when the window is resized
+        // You can adjust the viewport and projection here if needed
+    }
+
+    public void dispose(GLAutoDrawable drawable) {
+        // This method is called when the OpenGL context is destroyed
+        // You can clean up resources here if needed
+    }
+
+    public static void main(String[] args) {
+        // Main method to start the application
+        new Exam_Template(); // Create an instance of Exam_Template
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // Handle key typed events here
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        // Handle key pressed events here
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // Handle key released events here
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Handle mouse clicked events here
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // Handle mouse pressed events here
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // Handle mouse released events here
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // Handle mouse entered events here
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // Handle mouse exited events here
+    }
+}
+
+/*
+*************** Codes **************
+
+gl.glColor3f(1f, 1f, 1f); // Set the current color to white (RGB)
+gl.glColor4f(1.0f, 1.0f, 1.0f, 1f); // Set the current color to white with full opacity (RGBA)
+gl.glLineWidth(2); // Set the width of lines to 2 pixels
+gl.glPointSize(5); // Set the size of points to 5 pixels
+gl2.glRecti(50, 50, -50, -50); // Draw a rectangle with specified coordinates
+gl.glBegin(GL2.GL_POLYGON); // Start drawing a polygon
+gl.glBegin(GL2.GL_LINE_LOOP); // Start drawing a loop of lines
+gl.glBegin(GL2.GL_LINES); // Start drawing lines
+gl.glBegin(GL2.GL_POINTS); // Start drawing points
+gl.glEnd(); // End drawing
+gl.glVertex2i(0, 0); // Specify a vertex at (0, 0)
+gl.glVertex3i(0, 0, 0); // Specify a vertex at (0, 0, 0) in 3D
+
+gl.glRotated(angle, 0, 0, 1); // Rotate the current matrix by 'angle' degrees around the Z-axis
+gl.glTranslated(0, 0, 0); // Translate the current matrix by the specified amounts
+gl.glScaled(0, 0, 0); // Scale the current matrix by the specified factors
+
+if(e.getKeyCode()==KeyEvent.VK_RIGHT) // Check if the right arrow key is pressed
+if(e.getKeyCode()==KeyEvent.VK_LEFT) // Check if the left arrow key is pressed
+if(e.getKeyCode()==KeyEvent.VK_UP) // Check if the up arrow key is pressed
+if(e.getKeyCode()==KeyEvent.VK_DOWN) // Check if the down arrow key is pressed
+if(e.getKeyChar()=='a') // Check if the 'a' key is pressed
+
+ImageLoader image=new ImageLoader(); // Create an instance of ImageLoader
+image.loadImage("C:\\1.jpg"); // Load an image from the specified path
+
+gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST); // Set texture magnification filter
+gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_NEAREST); // Set texture minification filter
+gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGB, image.getWidth(),image.getHeight(), 0, GL2.GL_RGB, GL2.GL_UNSIGNED_BYTE, ByteBuffer.wrap(image.getData())); // Upload texture data
+
+gl.glEnable(GL2.GL_TEXTURE_2D); // Enable 2D texturing
+gl.glDisable(GL2.GL_TEXTURE_2D); // Disable 2D texturing
+
+gl.glPushMatrix(); // Save the current matrix state
+gl.glPopMatrix(); // Restore the previous matrix state
+
+gl.glEnable(GL2.GL_BLEND); // Enable blending for transparency
+gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA); // Set the blending function
+gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ZERO); // Set another blending function
+gl.glDisable(GL2.GL_BLEND); // Disable blending
+
+gl.glEnable(GL2.GL_LINE_SMOOTH); // Enable line smoothing for anti-aliasing
+gl.glHint(GL2.GL_LINE_SMOOTH_HINT, GL2.GL_DONT_CARE); // Set the hint for line smoothing
+gl.glDisable(GL2.GL_LINE_SMOOTH); // Disable line smoothing
+
+gl.glEnable(GL2.GL_POINT_SMOOTH); // Enable point smoothing for anti-aliasing
+gl.glHint(GL2.GL_POINT_SMOOTH_HINT, GL2.GL_DONT_CARE); // Set the hint for point smoothing
+gl.glDisable(GL2.GL_POINT_SMOOTH); // Disable point smoothing
+
+gl.glEnable(GL2.GL_LINE_STIPPLE); // Enable line stippling for dashed lines
+gl.glLineStipple(1, (short)0x00ff); // Set the stipple pattern for dashed lines
+gl.glDisable(GL2.GL_LINE_STIPPLE); // Disable line stippling
+
+gl.glPolygonMode(GL2.GL_FRONT, GL2.GL_LINE); // Set polygon mode for front faces to line
+gl.glPolygonMode(GL2.GL_Back, GL2.GL_FILL); // Set polygon mode for back faces to fill
+gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_POINT); // Set polygon mode for both front and back to point
+gl.glFrontFace(GL2.GL_CW); // Set the front face winding order to clockwise
+*/
