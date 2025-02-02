@@ -1,0 +1,527 @@
+import java.util.Scanner;
+
+
+ class SecurityAkarSardar01 {
+    public static void main(String[] args) {
+        System.out.println("1. Encryption\n2. Decryption \n Choose (1,2):");
+        Scanner in = new Scanner(System.in);
+        int choice = in.nextInt();
+        if (choice == 1) {
+            System.out.println("Encryption");
+            in.nextLine();
+
+            System.out.println("Message can only be lower or UPPER case alphabet");
+            System.out.println("Enter Your Message");
+            String msg = in.nextLine();
+
+            System.out.println("Enter key (0 - 25): ");
+            int key = in.nextInt();
+            String encryptMsg = "";
+
+            for (int i = 0; i < msg.length(); i++) {// iterating from the string
+                if ((int) msg.charAt(i) == 32) { //ignoring space
+                    encryptMsg += (char) 32; // ignoring space
+
+
+                } else if ((int) msg.charAt(i) + key > 122) { //xyz
+
+                    int temp = ((int) msg.charAt(i) + key) - 122; //2
+                    encryptMsg += (char) (96 + temp);
+
+                } else if ((int) msg.charAt(i) + key > 90 && (int) msg.charAt(i) < 91) {
+
+                    int temp = ((int) msg.charAt(i) + key) - 90;
+                    encryptMsg += (char) (64 + temp);
+                } else {
+                    encryptMsg += (char) ((int) msg.charAt(i) + key);
+                }
+            }
+            System.out.println(encryptMsg);
+
+// Decryption
+        }else if (choice ==2){
+            System.out.println("Decryption");
+            in.nextLine(); // to pass empty line to scanner to avoid error
+
+            System.out.println("Message can only be lower or UPPER case alphabet");
+            System.out.println("Enter Your encrypted Text");
+            String cipehrTxt =in.nextLine();
+
+            System.out.println("Enter key (0 - 25: ");
+            int d_key= in.nextInt();
+
+            String decryptMsg = "";
+            //itareting from the string
+            //write your uncompleted code here
+            for (int i = 0; i < cipehrTxt.length(); i++)
+                if ((int) cipehrTxt.charAt(i) == 32) {//space ignoring
+                    decryptMsg += (char) 32;
+
+                } else if ((int) cipehrTxt.charAt(i) - d_key < 97) {//for xyz and bigger than 122
+                    int temp = ((int) cipehrTxt.charAt(i) - d_key) + 26;  //+26 for go back to abc or end of it and so on
+                    decryptMsg += (char) temp;
+
+                } else if ((int) cipehrTxt.charAt(i) - d_key > 90 && ((int) cipehrTxt.charAt(i) - d_key) < 97) {///for bracekts
+                    int temp = ((int) cipehrTxt.charAt(i) - d_key) + 90;
+                    decryptMsg += (char) (temp - 64);
+
+                } else {
+                    decryptMsg += (char) (cipehrTxt.charAt(i) - d_key);//for normal situation
+
+                }
+            System.out.println(decryptMsg);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package az_array;
+
+/**
+ *
+ * @author Karzan_Jaza
+ */import java.util.Scanner;
+
+public class CaeserCipher {
+   public static void main(String[] args) {
+       System.out.println("1. Encryption\n2. Decryption \n Choose (1,2):");
+         Scanner in =new Scanner (System.in);
+         int choice = in.nextInt();
+         if (choice ==1){
+             System.out.println("Encryption");
+             in.nextLine(); // to pass empty line to scanner to avoid error
+             
+             System.out.println("Message can only be lower or UPPER case alphabet");
+             System.out.println("Enter Your Message");
+             String msg =in.nextLine(); //ABC
+             
+             System.out.println("Enter key (0 - 25: ");
+             int key= in.nextInt(); //1
+              String encryptMsg = "";
+             
+                  for (int i=0; i<msg.length(); i++){ //ABC
+                 // Casting char to int && int to char
+                 if ((int)msg.charAt(i)==32){  //A
+                     encryptMsg += (char)32; // ignoring space
+                 }else if ((int)msg.charAt(i)+key > 122){ //xyz
+                     
+                     int temp = ((int)msg.charAt(i)+key)-122; //2
+                     encryptMsg += (char)(96 + temp);
+                     
+                 }else if((int)msg.charAt(i)+key>90 && (int)msg.charAt(i) <91){
+                     // UPPER CASE
+                     int temp =((int)msg.charAt(i)+key)-90;
+                     encryptMsg += (char)(64 + temp);
+                 }else {
+                     encryptMsg += (char)((int)msg.charAt(i)+key); //
+                 }
+                  }// end of for loop
+                 System.out.println(encryptMsg);
+           
+          // Decryption 
+          
+         }else if (choice ==2){
+           System.out.println("Decryption");
+             in.nextLine(); // to pass empty line to scanner to avoid error
+             
+             System.out.println("Message can only be lower or UPPER case alphabet");
+             System.out.println("Enter Your encrypted Text");
+             String cipehrTxt =in.nextLine();
+             
+             System.out.println("Enter key (0 - 25: ");
+             int d_key= in.nextInt();
+             
+             String decryptMsg = "";  
+             for (int i=0; i<cipehrTxt.length(); i++){
+                 // Casting char to int && int to char
+                 if ((int)cipehrTxt.charAt(i)==32){
+                     decryptMsg += (char)32; // ignoring space
+                     
+                 }else if ((int)(cipehrTxt.charAt(i)- d_key) < 97 &&(int)(cipehrTxt.charAt(i)- d_key) > 90){
+                     // lower case
+                     int temp = ((int)cipehrTxt.charAt(i)- d_key)+26;
+                     decryptMsg += (char) temp;
+                     
+                 }else if ((int)cipehrTxt.charAt(i) - d_key <65){
+                      // UPPER CASE
+                     int temp =((int)cipehrTxt.charAt(i) - d_key) + 26;
+                     decryptMsg += (char) temp;
+                 }else {
+                     decryptMsg += (char)((int)cipehrTxt.charAt(i)- d_key);
+                 }
+             }// end for loop
+             
+             System.out.println(decryptMsg);
+             
+             
+         }else {
+            System.out.println("Wrong Coice!!"); 
+         }   
+    } 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package informationsecrity;
+
+/**
+ *
+ * @author Karzan_Jaza
+ */
+
+// Java program to illustrate Affine Cipher
+ 
+class AffineCipher
+{
+ 
+    // Key values of a and b
+    static int a =5; //17;  //5
+    static int b =3; //20;  //3
+ 
+    static String encryptMessage(char[] msg)
+    {
+        /// Cipher Text initially empty
+        String cipher = "";
+        for (int i = 0; i < msg.length; i++)
+        {
+            // Avoid space to be encrypted
+            /* applying encryption formula ( a x + b ) mod m
+            {here x is msg[i] and m is 26} and added 'A' to
+            bring it in range of ascii alphabet[ 65-90 | A-Z ] */
+            if (msg[i] != ' ')
+            {
+                cipher = cipher
+                        + (char) ((((a * (msg[i] - 'A')) + b) % 26) + 'A');
+            } else // else simply append space character
+            {
+                cipher += msg[i];
+            }
+        }
+        return cipher;
+    }
+ 
+    static String decryptCipher(String cipher)
+    {
+        String msg = "";
+        int a_inv = 0;
+        int flag;
+ 
+        //Find a^-1 (the multiplicative inverse of a
+        //in the group of integers modulo m.)
+        for (int i = 0; i < 26; i++)
+        {
+            flag = (a * i) % 26;
+ 
+            // Check if (a*i)%26 == 1,
+            // then i will be the multiplicative inverse of a
+            if (flag == 1)
+            {
+                a_inv = i;
+            }
+        } 
+        for (int i = 0; i < cipher.length(); i++)
+        {
+            /*Applying decryption formula a^-1 ( x - b ) mod m
+            {here x is cipher[i] and m is 26} and added 'A'
+            to bring it in range of ASCII alphabet[ 65-90 | A-Z ] */
+            if (cipher.charAt(i) != ' ')
+            {
+                msg = msg + (char) ((a_inv *
+                        ((cipher.charAt(i) + 'A' - b)) % 26) + 'A');
+            }
+            else //else simply append space character
+            {
+                msg += cipher.charAt(i);
+            }
+        }
+        System.out.println("the inverse key is : " + a_inv);
+ 
+        return msg;
+    }
+ 
+    // Driver code
+    public static void main(String[] args)
+    {
+        //String msg = "AFFINE CIPHER";
+        
+        String msg = "COLLEGE";
+        
+        // Calling encryption function
+        String cipherText = encryptMessage(msg.toCharArray());
+        System.out.println("Encrypted Message is : " + cipherText);
+ 
+        // Calling Decryption function
+        
+        System.out.println("Decrypted Message is: " + decryptCipher(cipherText));
+ 
+    }
+}
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package az_array;
+
+/**
+ *
+ * @author Karzan_Jaza
+ */
+
+// Java Program to Encode a Message Using Playfair Cipher
+ 
+import java.io.*;
+import java.util.*;
+ 
+class Playfair {
+    String key;
+    String plainText;
+    char[][] matrix = new char[5][5];
+ 
+    public Playfair(String key, String plainText)
+    {
+        // convert all the characters to lowercase
+        this.key = key.toLowerCase();
+       
+        this.plainText = plainText.toLowerCase();
+    }
+ 
+    // function to remove duplicate characters from the key
+    public void cleanPlayFairKey()
+    {
+        LinkedHashSet<Character> set
+            = new LinkedHashSet<Character>();
+       
+        String newKey = "";
+       
+        for (int i = 0; i < key.length(); i++)
+            set.add(key.charAt(i));
+ 
+        Iterator<Character> it = set.iterator();
+       
+        while (it.hasNext())
+            newKey += (Character)it.next();
+ 
+        key = newKey;
+    }
+ 
+    // function to generate playfair cipher key table
+    public void generateCipherKey()
+    {
+        Set<Character> set = new HashSet<Character>();
+       
+        for (int i = 0; i < key.length(); i++)
+        {
+            if (key.charAt(i) == 'j')
+                continue;
+            set.add(key.charAt(i));
+        }
+ 
+        // remove repeated characters from the cipher key
+        String tempKey = new String(key);
+       
+        for (int i = 0; i < 26; i++)
+        {
+            char ch = (char)(i + 97);
+            if (ch == 'j')
+                continue;
+           
+            if (!set.contains(ch))
+                tempKey += ch;
+        }
+ 
+        // create cipher key table
+        for (int i = 0, idx = 0; i < 5; i++)
+            for (int j = 0; j < 5; j++)
+                matrix[i][j] = tempKey.charAt(idx++);
+ 
+        System.out.println("Playfair Cipher Key Matrix:");
+       
+        for (int i = 0; i < 5; i++)
+            System.out.println(Arrays.toString(matrix[i]));
+    }
+ 
+    // function to preprocess plaintext
+    public String formatPlainText()
+    {
+        String message = "";
+        int len = plainText.length();
+       
+        for (int i = 0; i < len; i++)
+        {
+            // if plaintext contains the character 'j',
+            // replace it with 'i'
+            if (plainText.charAt(i) == 'j')
+                message += 'i';
+            else
+                message += plainText.charAt(i);
+        }
+ 
+        // if two consecutive characters are same, then
+        // insert character 'x' in between them
+        for (int i = 0; i < message.length(); i += 2)
+        {
+            if (message.charAt(i) == message.charAt(i + 1))
+                message = message.substring(0, i + 1) + 'x'
+                          + message.substring(i + 1);
+        }
+       
+        // make the plaintext of even length
+        if (len % 2 == 1)
+            message += 'x'; // dummy character
+       
+        return message;
+    }
+ 
+    // function to group every two characters
+    public String[] formPairs(String message)
+    {
+        int len = message.length();
+        String[] pairs = new String[len / 2];
+       
+        for (int i = 0, cnt = 0; i < len / 2; i++)
+            pairs[i] = message.substring(cnt, cnt += 2);
+       
+        return pairs;
+    }
+ 
+    // function to get position of character in key table
+    public int[] getCharPos(char ch)
+    {
+        int[] keyPos = new int[2];
+       
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+               
+                if (matrix[i][j] == ch)
+                {
+                    keyPos[0] = i;
+                    keyPos[1] = j;
+                    break;
+                }
+            }
+        }
+        return keyPos;
+    }
+ 
+    public String encryptMessage()
+    {
+        String message = formatPlainText();
+        String[] msgPairs = formPairs(message);
+        String encText = "";
+       
+        for (int i = 0; i < msgPairs.length; i++)
+        {
+            char ch1 = msgPairs[i].charAt(0);
+            char ch2 = msgPairs[i].charAt(1);
+            int[] ch1Pos = getCharPos(ch1);
+            int[] ch2Pos = getCharPos(ch2);
+ 
+            // if both the characters are in the same row
+            if (ch1Pos[0] == ch2Pos[0]) {
+                ch1Pos[1] = (ch1Pos[1] + 1) % 5;
+                ch2Pos[1] = (ch2Pos[1] + 1) % 5;
+            }
+           
+            // if both the characters are in the same column
+            else if (ch1Pos[1] == ch2Pos[1])
+            {
+                ch1Pos[0] = (ch1Pos[0] + 1) % 5;
+                ch2Pos[0] = (ch2Pos[0] + 1) % 5;
+            }
+           
+            // if both the characters are in different rows
+            // and columns
+            else {
+                int temp = ch1Pos[1];
+                ch1Pos[1] = ch2Pos[1];
+                ch2Pos[1] = temp;
+            }
+           
+            // get the corresponding cipher characters from
+            // the key matrix
+            encText = encText + matrix[ch1Pos[0]][ch1Pos[1]]
+                      + matrix[ch2Pos[0]][ch2Pos[1]];
+        }
+       
+        return encText;
+    }
+}
+ 
+public class GFG {
+    public static void main(String[] args)
+    {
+        System.out.println("Example-1\n");
+       
+        String key1 = "monarchy";
+        String plainText1 = "mosque";
+       
+        System.out.println("Key: " + key1);
+        System.out.println("PlainText: " + plainText1);
+       
+        Playfair pfc1 = new Playfair(key1, plainText1);
+        pfc1.cleanPlayFairKey();
+        pfc1.generateCipherKey();
+       
+        String encText1 = pfc1.encryptMessage();
+        System.out.println("Cipher Text is: " + encText1);
+ 
+        
+    }
+}
+
+
+
+
+
+
