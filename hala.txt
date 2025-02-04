@@ -1,0 +1,287 @@
+import random
+
+# Helper functions
+def binary_to_int(binary_str):
+    return int(binary_str, 2)
+
+def int_to_binary(num, length=12):
+    return f"{num:0{length}b}"
+
+def fitness(x):
+    return x ** 2
+
+# Genetic Algorithm
+def genetic_algorithm(pop_size=8, string_length=12, generations=50, mutation_prob=1/6):
+    # Step 1: Initialize population
+    population = [int_to_binary(random.randint(0, 2**string_length - 1), string_length) for _ in range(pop_size)]
+
+    for gen in range(generations):
+        # Step 2: Decode and evaluate fitness
+        decoded = [binary_to_int(ind) for ind in population]
+        fitness_values = [fitness(x) for x in decoded]
+        
+        # Step 3: Select the best half
+        sorted_population = sorted(zip(population, fitness_values), key=lambda x: x[1], reverse=True)
+        population = [p[0] for p in sorted_population[:pop_size // 2]]
+        
+        # Step 4: Crossover
+        new_population = []
+        for _ in range(pop_size // 2):
+            parent1, parent2 = random.sample(population, 2)
+            crossover_point = random.randint(1, string_length - 1)
+            child1 = parent1[:crossover_point] + parent2[crossover_point:]
+            child2 = parent2[:crossover_point] + parent1[crossover_point:]
+            new_population.extend([child1, child2])
+
+        # Step 5: Mutation
+        def mutate(individual):
+            return ''.join(
+                bit if random.random() > mutation_prob else '1' if bit == '0' else '0' 
+                for bit in individual
+            )
+        
+        new_population = [mutate(ind) for ind in new_population]
+        population = new_population
+        
+        # Print best individual of the generation
+        best_individual = max(zip(decoded, fitness_values), key=lambda x: x[1])
+        print(f"Generation {gen + 1}: Best = {best_individual[0]} (Fitness = {best_individual[1]})")
+
+    # Final result
+    best_individual = max(zip(decoded, fitness_values), key=lambda x: x[1])
+    print(f"\nBest solution: {best_individual[0]} (Fitness = {best_individual[1]})")
+
+# Run the algorithm
+genetic_algorithm()
+
+
+
+
+
+
+
+
+
+
+
+from collections import deque
+
+class Graph:
+    def __init__(self):
+        self.graph = {}
+
+    def add_edge(self, node, neighbors):
+        self.graph[node] = neighbors
+
+def bfs(graph, start_node, target_node):
+    visited = set()
+    queue = deque([start_node])
+
+    while queue:
+        current_node = queue.popleft()
+        print(f"Visiting {current_node}")
+
+        if current_node == target_node:
+            print(f"Target node '{target_node}' found!")
+            return True
+
+        if current_node not in visited:
+            visited.add(current_node)
+            queue.extend(graph[current_node])
+
+    print(f"Node '{target_node}' not found in the graph.")
+    return False
+
+# Example usage
+if __name__ == "__main__":
+    # Create a graph
+    my_graph = Graph()
+    my_graph.add_edge('S', ['D', 'E', 'P'])
+    my_graph.add_edge('D', ['B','C', 'E'])
+    my_graph.add_edge('E', ['H', 'R'])
+    my_graph.add_edge('P', ['Q'])
+    my_graph.add_edge('B', ['A'])
+    my_graph.add_edge('C', ['A'])
+    my_graph.add_edge('H', ['P', 'Q'])
+    my_graph.add_edge('R', ['F'])
+    my_graph.add_edge('Q', [])
+    my_graph.add_edge('A', [])
+    my_graph.add_edge('F', ['C', 'G'])
+    my_graph.add_edge('G', [])
+    
+    
+
+    # Perform BFS starting from node 'A' and search for node 'D'
+    start_node = 'S'
+    target_node = 'G'
+    print(f"Breadth-First Search to find node '{target_node}':")
+    found = bfs(my_graph.graph, start_node, target_node)
+
+
+
+
+
+
+
+class Graph:
+    def __init__(self):
+        self.graph = {}
+
+    def add_edge(self, node, neighbors):
+        self.graph[node] = neighbors
+
+def dfs(graph, current_node, target_node, visited):
+    if current_node not in visited:
+        print(f"Visiting {current_node}")
+        visited.add(current_node)
+
+        # Check if the current node is the target node
+        if current_node == target_node:
+            print(f"Target node '{target_node}' found!")
+            return True
+
+        # Continue DFS for neighbors
+        for neighbor in graph[current_node]:
+            if dfs(graph, neighbor, target_node, visited):
+                return True  # Target node found, stop DFS
+
+
+
+    return False
+
+# Example usage
+if __name__ == "__main__":
+    my_graph = Graph()
+    my_graph.add_edge('S', ['D', 'E', 'P'])
+    my_graph.add_edge('D', ['B','C', 'E'])
+    my_graph.add_edge('E', ['H', 'R'])
+    my_graph.add_edge('P', ['Q'])
+    my_graph.add_edge('B', ['A'])
+    my_graph.add_edge('C', ['A'])
+    my_graph.add_edge('H', ['P', 'Q'])
+    my_graph.add_edge('R', ['F'])
+    my_graph.add_edge('Q', [])
+    my_graph.add_edge('A', [])
+    my_graph.add_edge('F', ['C', 'G'])
+    my_graph.add_edge('G', [])
+
+
+    # Perform DFS starting from node 'A' and search for node 'D'
+    start_node = 'S'
+    target_node = 'G'
+    visited_nodes = set()
+    print(f"Depth-First Search to find node '{target_node}':")
+    found = dfs(my_graph.graph, start_node, target_node, visited_nodes)
+
+    if not found:
+        print(f"Node '{target_node}' not found in the graph.")
+
+
+
+
+
+
+
+# Import necessary libraries
+import tensorflow as tf
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+import os
+
+# Step 1: Prepare the dataset
+# Directory structure:
+
+# Path to your dataset directory
+data_dir = "C:/Users/ayuba/OneDrive/Desktop/animals"
+train_dir = os.path.join(data_dir, "train")
+val_dir = os.path.join(data_dir, "validation")
+test_dir = os.path.join(data_dir, "test")
+
+# Data Generators (without augmentation)
+train_datagen = ImageDataGenerator(rescale=1.0/255)
+val_datagen = ImageDataGenerator(rescale=1.0/255)
+test_datagen = ImageDataGenerator(rescale=1.0/255)
+
+train_generator = train_datagen.flow_from_directory(
+    train_dir,
+    target_size=(128, 128),
+    batch_size=32,
+    class_mode="categorical"  # Categorical mode for multi-class classification
+)
+
+val_generator = val_datagen.flow_from_directory(
+    val_dir,
+    target_size=(128, 128),
+    batch_size=32,
+    class_mode="categorical"
+)
+
+test_generator = test_datagen.flow_from_directory(
+    test_dir,
+    target_size=(128, 128),
+    batch_size=32,
+    class_mode="categorical"
+)
+
+# Step 2: Build the CNN model
+model = Sequential([
+    Conv2D(32, (3, 3), activation="relu", input_shape=(128, 128, 3)),
+    MaxPooling2D((2, 2)),
+    Conv2D(64, (3, 3), activation="relu"),
+    MaxPooling2D((2, 2)),
+    Conv2D(128, (3, 3), activation="relu"),
+    MaxPooling2D((2, 2)),
+    Flatten(),
+    Dense(128, activation="relu"),
+    Dropout(0.5),
+    Dense(3, activation="softmax")  # Output layer for three classes
+])
+
+# Step 3: Compile the model
+model.compile(
+    optimizer=Adam(learning_rate=0.001),
+    loss="categorical_crossentropy",  # Use categorical crossentropy for multi-class classification
+    metrics=["accuracy"]
+)
+
+# Step 4: Train the model
+history = model.fit(
+    train_generator,
+    epochs=10,
+    validation_data=val_generator
+)
+
+# Step 5: Evaluate the model
+test_loss, test_accuracy = model.evaluate(test_generator)
+print(f"Test Accuracy: {test_accuracy * 100:.2f}%")
+
+# Step 6: Save the model
+model.save("C:/Users/ayuba/OneDrive/Desktop/animals/multi_class_classifier.h5")
+
+model.summary()
+
+
+# Step 7: Load and test the model with new images (optional)
+from tensorflow.keras.preprocessing import image
+import numpy as np
+
+def predict_image(img_path, model, class_indices):
+    img = image.load_img(img_path, target_size=(128, 128))
+    img_array = image.img_to_array(img) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
+    predictions = model.predict(img_array)
+    class_labels = {v: k for k, v in class_indices.items()}  # Reverse the class_indices
+    predicted_class = class_labels[np.argmax(predictions)]
+    return predicted_class
+
+# Example usage:
+img_path = "C:/Users/ayuba/OneDrive/Desktop/animals/test/cats/cat.1.jpg"  # Replace with your image path
+model = tf.keras.models.load_model("multi_class_classifier.h5")
+class_indices = train_generator.class_indices  # Get class mappings
+result = predict_image(img_path, model, class_indices)
+print(f"The image is classified as: {result}")
+
+
+
