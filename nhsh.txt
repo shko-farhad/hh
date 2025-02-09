@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design and Development</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Web Design and Development</h1>
+        <p>UOH - Computer Science Department</p>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">News</a>
+        <a href="#" class="active">Contact</a>
+        <a href="#">About</a>
+    </div>
+
+    <!-- Lesson Schedule Table -->
+    <div class="table-container">
+        <h2>LESSON SCHEDULE</h2>
+        <table>
+            <tr>
+                <th>Time</th>
+                <th>DAY 1</th>
+                <th>DAY 2</th>
+                <th>DAY 3</th>
+            </tr>
+            <tr>
+                <td>8:00</td>
+                <td>HTML</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>9:00</td>
+                <td>&nbsp;</td>
+                <td>CSS</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>10:00</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>JS</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Text Box Section -->
+    <div class="text-box">
+        <p><strong><em>L O R E M  I P S U M   D O L O R   S I T   A M E T</em></strong></p>
+        <p>
+            consectetur adipiscing elit. Eveniet beatae rerum quis culpa unde suscipit 
+            voluptatum error, labore expedita vitae nobis deleniti eos aliquam repellendus, 
+            reiciendis velit dolore, possimus nisi!
+        </p>
+    </div>
+
+    <!-- Favorite Programming Languages Section -->
+    <div class="fav-languages">
+        <h3>Our Favorite Programming Languages</h3>
+        <ul>
+            <li>Python</li>
+            <li>JavaScript</li>
+            <li>Java</li>
+            <li>C#</li>
+            <li>Ruby</li>
+        </ul>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Web Development, Final Practice Exam.</p>
+    </footer>
+</body>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(to right, #003366, #339966);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: center;
+    background: #553333;
+    padding: 10px;
+}
+
+.navbar a {
+    color: black;
+    text-decoration: none;
+    padding: 10px 15px;
+    margin: 0 10px;
+    font-size: 16px;
+    background-color: #dddddd;
+    border-radius: 5px;
+}
+
+.navbar a.active {
+    background-color: orange;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    background-color: orange;
+}
+
+/* Lesson Schedule */
+.table-container {
+    text-align: center;
+    margin: 20px auto;
+    width: 50%;
+}
+
+table {
+    margin: auto;
+    width: 50%;
+    border-collapse: separate;
+    border-spacing: 15;
+    border: 2px solid brown;
+}
+
+th, td {
+    border: 1px solid brown;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4a9a8;
+    color: black;
+}
+
+/* Text Box */
+.text-box {
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin: 20px auto;
+    width: 60%;
+    font-style: italic;
+    border: 2px dashed brown;
+    text-align: center;
+    box-shadow: 5px 15px 15px rgba(0, 0, 0, 0.3);
+    
+    border-radius: 10px;
+}
+
+/* Favorite Languages */
+.fav-languages {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #e0e0e0;
+    border-left: solid #333;
+    border: radius 5em;
+}
+
+.fav-languages h3 {
+    color: maroon;
+}
+
+.fav-languages ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+</style>
+</html>
+
