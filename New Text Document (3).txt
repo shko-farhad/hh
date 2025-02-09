@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design and Development</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+
+    /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+/* Header */
+header {
+    background: linear-gradient(to right, green, rgb(210, 224, 210));
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+h1 {
+    margin: 5px 0;
+}
+
+h3 {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #333;
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+
+nav ul li a.active {
+    background-color: yellow;
+    color: black;
+    border-radius: 3px;
+}
+
+/* Lesson Schedule Table */
+h2 {
+    margin-top: 20px;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+table {
+    margin: auto;
+    width: 50%;
+     border: 2px solid brown;
+}
+
+th, td {
+    border: 1px solid brown;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+th {
+    background-color: #f4a9a8;
+    color: black;
+}
+
+th.time {
+    background-color: #857474;
+    color: white;
+}
+
+td {
+    background-color: #f9f9e0;
+}
+
+/* Text Box with Shadow */
+.text-box {
+    width: 70%;
+    background: white;
+    padding: 15px;
+    margin: 30px auto;
+    border: 2px dashed brown;
+    box-shadow: 5px 5px 10px gray;
+    text-align: left;
+}
+
+.text-box .highlight {
+    font-style: italic;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+/* Favorite Programming Languages */
+.fav-languages {
+    width: 70%;
+    background: #d9d9d9;
+    margin: auto;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.fav-languages h3 {
+    color: darkred;
+    font-size: 20px;
+    text-align: left;
+}
+
+.fav-languages ul {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.fav-languages ul li {
+    font-size: 16px;
+}
+
+/* Footer */
+footer {
+    background: black;
+    color: white;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+</style>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="logo"></div>
+        <h1>Web Design and Development</h1>
+        <h3>UOH - Computer Science Department</h3>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#" class="active">Contact</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Lesson Schedule Table -->
+    <h2>LESSON SCHEDULE</h2>
+    <table>
+        <tr>
+            <th class="time">Time</th>
+            <th>DAY 1</th>
+            <th>DAY 2</th>
+            <th>DAY 3</th>
+        </tr>
+        <tr>
+            <td>8.00</td>
+            <td>HTML</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>9.00</td>
+            <td></td>
+            <td>CSS</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>10.00</td>
+            <td></td>
+            <td></td>
+            <td>JS</td>
+        </tr>
+    </table>
+
+    <!-- Paragraph Box with Shadow -->
+    <div class="text-box">
+        <p><span class="highlight">L O R E M   I P S U M   D O L O R   S I T   A M E T</span></p>
+        <p>
+            consectetur adipiscing elit. Eveniet beatae rerum quis culpa unde suscipit voluptatem error, 
+            labore expedita vitae nobis deleniti eos aliquam repellendus, reiciendis velit dolore, possimus nisi!
+        </p>
+    </div>
+
+    <!-- Favorite Programming Languages -->
+    <section class="fav-languages">
+        <h3>Our Favorite Programming Languages</h3>
+        <ul>
+            <li>Python</li>
+            <li>JavaScript</li>
+            <li>Java</li>
+            <li>C#</li>
+            <li>Ruby</li>
+        </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Web Development, Final Exam Practical.</p>
+    </footer>
+
+</body>
+</html>
