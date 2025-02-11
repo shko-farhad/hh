@@ -1,0 +1,47 @@
+DELiMiTER $$
+ CREATE PROCEDURE insertEmployee(eid INT, phone_no
+ varchar(50),address varchar(50),e_name varchar(50)) 
+BEGIN
+ IF eid!='' AND phone_no !='' AND address!='' AND e_name !='' THEN
+ INSERT INTO employee VALUES (eid,phone_no,address,e_name);
+ END IF;
+ END $$
+ DELIMITER ;
+
+
+DELiMiTER $$
+ CREATE PROCEDURE insertDepartment(did int, dname varchar(50),eid int) 
+BEGIN
+ DECLARE c int;
+ SELECT  COUNT(EID) INTO c FROM employee WHERE employee.EID=eid;
+ IF c!=0 THEN
+ INSERT INTO department VALUES (did,dname,eid);
+ END IF
+ END $$
+ DELIMITER ;
+
+
+DELiMiTER $$
+ CREATE FUNCTION SearchDEP(name varchar(50)) RETURNS varchar(50)
+ BEGIN
+ DECLARE x int;
+ DECLARE y varchar(50);
+ SELECT employee.EID INTO x FROM employee WHERE employee.E_Name
+ LIKE name;
+ department.Emp_ID=x;
+ RETURN y;
+ END $$
+ DELIMITER ;
+
+
+
+
+DELiMiTER $$
+ CREATE PROCEDURE insertMultEmployee(x INT) 
+BEGIN
+ WHILE x > 0 DO
+ INSERT INTO employee VALUES ('','test','test','test');
+ SET x = x - 1;
+ END WHILE; 
+END $$
+ DELIMITER ;
