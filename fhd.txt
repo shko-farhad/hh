@@ -1,0 +1,402 @@
+import java.io.*;
+import java.util.*;
+import java.util.regex.*;
+
+public class Lexical3 {
+
+    static String[] keywords = {
+        "int", "float", "if", "else", "while", "return"
+    };
+
+    static Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));
+
+    public static List<String> tokenize(String input) {
+        List<String> tokens = new ArrayList<>();
+
+        // Match words, numbers, or symbols
+        Pattern pattern = Pattern.compile("[a-zA-Z_][a-zA-Z0-9_]*|\\d+|[+\\-*/=<>!(){};]");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            tokens.add(matcher.group());
+        }
+
+        return tokens;
+    }
+
+    public static String classifyToken(String token) {
+        if (keywordSet.contains(token))
+            return "Keyword";
+        else if (token.matches("[a-zA-Z_][a-zA-Z0-9_]*"))
+            return "Identifier";
+        else if (token.matches("\\d+"))
+            return "Number";
+        else if (token.matches("[+\\-*/=<>!(){};]"))
+            return "Symbol";
+        else
+            return "Unknown";
+    }
+
+    public static void main(String[] args) {
+        String inputFilePath = "input.txt"; // Specify the input file path
+        String outputFilePath = "output.txt"; // Specify the output file path
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                List<String> tokens = tokenize(line);
+                for (String token : tokens) {
+                    writer.write(token + " --> " + classifyToken(token));
+                    writer.newLine();
+                }
+            }
+
+            System.out.println("Lexical analysis completed. Output written to " + outputFilePath);
+
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+}
+
+
+
+import java.util.*;
+import java.util.regex.*;
+
+public class Lexical2 {
+
+    static String[] keywords =
+    {
+        "int", "float", "if", "else", "while", "return"
+    };
+
+    static Set<String> keywordSet = new HashSet<>(Arrays.asList(keywords));//keywordSet.add("int");
+
+
+
+    public static List<String> tokenize(String input)
+    {
+        List<String> tokens = new ArrayList<>();
+
+        // Match words, numbers, or symbols
+        Pattern pattern = Pattern.compile("[a-zA-Z_][a-zA-Z0-9_]*|\\d+|[+\\-*/=<>!(){};]");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            tokens.add(matcher.group());
+        }
+
+        return tokens;
+    }
+
+    public static String classifyToken(String token) {
+        if (keywordSet.contains(token))
+            return "Keyword";
+        else if (token.matches("[a-zA-Z_][a-zA-Z0-9_]*"))
+            return "Identifier";
+        else if (token.matches("\\d+"))
+            return "Number";
+        else if (token.matches("[+\\-*/=<>!(){};]"))
+            return "Symbol";
+        else
+            return "Unknown";
+    }
+
+
+
+
+    public static void main(String[] args) {
+        String input = "int x = 10; if (x > 5) return x + 1;";
+
+        List<String> tokens = tokenize(input);
+
+        for (String token : tokens) {
+            System.out.println(token + " --> " + classifyToken(token));
+        }
+    }
+
+
+
+
+}
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Lexical1
+
+{
+
+	 public static List<String> tokenize(String input)
+	 {
+	        List<String> tokens = new ArrayList<>();
+	        StringBuilder token = new StringBuilder();
+
+	        for (char c : input.toCharArray())
+	        {
+
+		//		System.out.println(c);
+	            if (Character.isWhitespace(c)) // or c ==32 asci code for space
+	            {
+	                continue;
+	            }
+
+	            else if (Character.isDigit(c))
+	            {
+	                token.append(c);
+	            }
+	            else
+	            {
+	                if (token.length() > 0)
+	                {
+	                    tokens.add(token.toString());
+	                    token.setLength(0);
+	                }
+	                tokens.add(String.valueOf(c));
+	            }
+	        }
+
+	        if (token.length() > 0)
+	        {
+	            tokens.add(token.toString());
+	        }
+
+	        return tokens;
+    }
+
+
+    public static void main(String[] args)
+    {
+        String input = "10+ 20 - 5 * 4";
+        List<String> tokens = tokenize(input);
+        System.out.println("Tokens: " + tokens);
+    }
+
+
+}
+
+
+/*
+
+S → c A d
+A → a b | a
+
+*/
+
+public class GrammarParser {
+
+    private String input;
+    private int pos;
+
+    public GrammarParser(String input) {
+        this.input = input;
+        this.pos = 0;
+    }
+
+    // Start symbol S → c A d
+    public boolean parse() {
+        try {
+            parseS();
+            return pos == input.length(); // Make sure entire input is consumed
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void parseS() {
+        if (pos < input.length() && input.charAt(pos) == 'c') {
+            pos++;
+        } else {
+            throw new RuntimeException("Expected 'c' at position " + pos);
+        }
+
+        parseA();
+
+        if (pos < input.length() && input.charAt(pos) == 'd') {
+            pos++;
+        } else {
+            throw new RuntimeException("Expected 'd' at position " + pos);
+        }
+    }
+
+    // A → ab | a
+    private void parseA() {
+        if (pos + 1 < input.length() &&
+            input.charAt(pos) == 'a' &&
+            input.charAt(pos + 1) == 'b') {
+            pos += 2; // consume "ab"
+        } else if (pos < input.length() && input.charAt(pos) == 'a') {
+            pos++; // consume "a"
+        } else {
+            throw new RuntimeException("Unexpected character at position " + pos);
+        }
+    }
+
+    // --- Test the parser ---
+    public static void main(String[] args) {
+        String[] testInputs = {
+            "cad",     // valid
+            "cabd",    // valid
+            "cd",      // invalid (missing A)
+            "caad",    // invalid (extra 'a')
+            "cbd",     // invalid (wrong middle char)
+            "cabbd"    // invalid
+        };
+
+        for (String input : testInputs) {
+            GrammarParser parser = new GrammarParser(input);
+            boolean result = parser.parse();
+            System.out.println("Input: \"" + input + "\" -> Valid: " + result);
+        }
+    }
+}
+
+/*E  → T
+T  → id T'
+T' → * F T' | ε
+F  → id
+*/
+
+
+public class RecursiveDescentParser {
+
+    private String[] tokens;
+    private int pos;
+
+    public RecursiveDescentParser(String input) {
+        // Tokenize input assuming space-separated tokens
+        this.tokens = input.split("\\s+");
+        this.pos = 0;
+    }
+
+    // Start parsing from E
+    public boolean parse() {
+        try {
+            parseE();
+            return pos == tokens.length; // Ensure all tokens are consumed
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // E → T
+    private void parseE() {
+        parseT();
+    }
+
+    // T → id T'
+    private void parseT() {
+        if (pos < tokens.length && tokens[pos].equals("id")) {
+            pos++;
+            parseTPrime();
+        } else {
+            throw new RuntimeException("Unexpected token at position " + pos);
+        }
+    }
+
+    // T' → * F T' | ε
+    private void parseTPrime() {
+        if (pos < tokens.length && tokens[pos].equals("*")) {
+            pos++; // consume *
+            parseF();
+            parseTPrime();
+        }
+        // else ε production (do nothing)
+    }
+
+    // F → id
+    private void parseF() {
+        if (pos < tokens.length && tokens[pos].equals("id")) {
+            pos++;
+        } else {
+            throw new RuntimeException("Expected 'id', found: " + tokens[pos]);
+        }
+    }
+
+    // --- Test the parser ---
+    public static void main(String[] args) {
+        String[] testInputs = {
+            "id",         // valid
+            "id * id",    // valid
+            "id * id * id", // valid
+            "*",          // invalid
+            "id *",       // invalid
+            "id * * id",  // invalid
+            "num * id"    // invalid (assuming only 'id' is allowed)
+        };
+
+        for (String input : testInputs) {
+            RecursiveDescentParser parser = new RecursiveDescentParser(input);
+            boolean result = parser.parse();
+            System.out.println("Input: \"" + input + "\" -> Valid: " + result);
+        }
+    }
+}
+
+
+/*
+
+E → T + E
+E → T
+T → int
+
+*/
+
+import java.util.*;
+
+public class SimpleParser {
+
+    private final List<String> tokens;
+    private int pos;
+
+    public SimpleParser(String input) {
+        // Tokenize input: split by whitespace
+        this.tokens = new ArrayList<>(Arrays.asList(input.split("\\s+")));
+        this.pos = 0;
+    }
+
+    // Start symbol: E
+    public int parse() {
+        return parseE();
+    }
+
+    // E → T + E | T
+    private int parseE() {
+        int t = parseT();
+
+        if (pos < tokens.size() && tokens.get(pos).equals("+")) {
+            pos++; // consume '+'
+            int e = parseE();
+            return t + e;
+        }
+
+        return t;
+    }
+
+    // T → int
+    private int parseT() {
+        if (pos < tokens.size()) {
+            String token = tokens.get(pos);
+            try {
+                int value = Integer.parseInt(token);
+                pos++;
+                return value;
+            } catch (NumberFormatException ex) {
+                throw new RuntimeException("Expected integer, found: " + token);
+            }
+        }
+        throw new RuntimeException("Unexpected end of input");
+    }
+
+    // --- Test the parser ---
+    public static void main(String[] args) {
+        String expr = "3 + 4 + 5";
+        SimpleParser parser = new SimpleParser(expr);
+        int result = parser.parse();
+        System.out.println("Result: " + result); // Output: Result: 12
+    }
+}
+
