@@ -1,229 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Design and Development</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<style>
+#include <IRremote.h>
 
-    /* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f8f8;
+#define IR_PIN 2
+#define LED_PIN 13
+
+bool ledState = false;
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);
+
+  IrReceiver.begin(IR_PIN, ENABLE_LED_FEEDBACK); // Start receiver
 }
 
-/* Header */
-header {
-    background: linear-gradient(to right, green, rgb(210, 224, 210));
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
+void loop() {
+  if (IrReceiver.decode()) {
+
+    Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX);
+
+    // Replace this with your button code
+    if (IrReceiver.decodedIRData.decodedRawData == 0xEF10BF00) {
+      ledState = !ledState;
+      digitalWrite(LED_PIN, ledState);
+    }
+
+    IrReceiver.resume(); // Ready for next signal
+  }
 }
 
-h1 {
-    margin: 5px 0;
+
+///////
+
+
+
+
+
+#include <SPI.h>
+#include <MFRC522.h>
+const int RST_PIN = 9;     // Reset pin
+const int SS_PIN  = 10;    // SPI Slave Select pin
+const int LED_PIN = 8;     // LED connected to digital pin 8
+MFRC522 rfid(SS_PIN, RST_PIN);
+bool ledState = false;
+byte knownUID[] = { 0xCF, 0x5F, 0xB4, 0x79 };
+
+void setup() {
+  Serial.begin(9600);
+  SPI.begin();              // Init SPI bus
+  rfid.PCD_Init();          // Init MFRC522
+  pinMode(LED_PIN, OUTPUT); // Set LED pin
+  digitalWrite(LED_PIN, LOW);
+
+  Serial.println("RFID reader initialized.");
 }
 
-h3 {
-    margin: 5px 0;
-    font-size: 16px;
+void loop() {
+  // Look for a new card
+  if (!rfid.PICC_IsNewCardPresent() || !rfid.PICC_ReadCardSerial()) {
+    delay(50);
+    return;
+  }
+  // Print scanned UID
+  Serial.print("UID tag: ");
+  for (uint8_t i = 0; i < rfid.uid.size; i++) {
+    Serial.print(rfid.uid.uidByte[i] < 0x10 ? " 0" : " ");
+    Serial.print(rfid.uid.uidByte[i], HEX);
+  }
+  Serial.println();
+
+  // Check if UID matches known tag
+  if (isSameUID(rfid.uid.uidByte, knownUID, rfid.uid.size)) {
+    ledState = !ledState;  // Toggle LED state
+    digitalWrite(LED_PIN, ledState ? HIGH : LOW);
+    Serial.println(ledState ? "LED ON" : "LED OFF");
+    delay(1000); // prevent bouncing
+  } else {
+    Serial.println("Unknown tag.");
+  }
+
+  // Halt PICC
+  rfid.PICC_HaltA();
 }
 
-/* Navigation Bar */
-nav {
-    background-color: #333;
-    padding: 10px;
+bool isSameUID(byte *uid1, byte *uid2, byte length) {
+  for (byte i = 0; i < length; i++) {
+    if (uid1[i] != uid2[i]) return false;
+  }
+  return true;
 }
 
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-}
 
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
 
-nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    padding: 5px 10px;
-}
 
-nav ul li a.active {
-    background-color: yellow;
-    color: black;
-    border-radius: 3px;
-}
-
-/* Lesson Schedule Table */
-h2 {
-    margin-top: 20px;
-    font-size: 22px;
-    text-transform: uppercase;
-}
-
-table {
-    margin: auto;
-    width: 50%;
-     border: 2px solid brown;
-}
-
-th, td {
-    border: 1px solid brown;
-    padding: 10px;
-    text-align: center;
-    border-radius: 8px;
-}
-
-th {
-    background-color: #f4a9a8;
-    color: black;
-}
-
-th.time {
-    background-color: #857474;
-    color: white;
-}
-
-td {
-    background-color: #f9f9e0;
-}
-
-/* Text Box with Shadow */
-.text-box {
-    width: 70%;
-    background: white;
-    padding: 15px;
-    margin: 30px auto;
-    border: 2px dashed brown;
-    box-shadow: 5px 5px 10px gray;
-    text-align: left;
-}
-
-.text-box .highlight {
-    font-style: italic;
-    font-weight: bold;
-    letter-spacing: 3px;
-}
-
-/* Favorite Programming Languages */
-.fav-languages {
-    width: 70%;
-    background: #d9d9d9;
-    margin: auto;
-    padding: 15px;
-    border-radius: 5px;
-}
-
-.fav-languages h3 {
-    color: darkred;
-    font-size: 20px;
-    text-align: left;
-}
-
-.fav-languages ul {
-    text-align: left;
-    padding-left: 20px;
-}
-
-.fav-languages ul li {
-    font-size: 16px;
-}
-
-/* Footer */
-footer {
-    background: black;
-    color: white;
-    padding: 10px;
-    margin-top: 20px;
-    font-size: 14px;
-}
-</style>
-<body>
-
-    <!-- Header Section -->
-    <header>
-        <div class="logo"></div>
-        <h1>Web Design and Development</h1>
-        <h3>UOH - Computer Science Department</h3>
-    </header>
-
-    <!-- Navigation Menu -->
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">News</a></li>
-            <li><a href="#" class="active">Contact</a></li>
-            <li><a href="#">About</a></li>
-        </ul>
-    </nav>
-
-    <!-- Lesson Schedule Table -->
-    <h2>LESSON SCHEDULE</h2>
-    <table>
-        <tr>
-            <th class="time">Time</th>
-            <th>DAY 1</th>
-            <th>DAY 2</th>
-            <th>DAY 3</th>
-        </tr>
-        <tr>
-            <td>8.00</td>
-            <td>HTML</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>9.00</td>
-            <td></td>
-            <td>CSS</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>10.00</td>
-            <td></td>
-            <td></td>
-            <td>JS</td>
-        </tr>
-    </table>
-
-    <!-- Paragraph Box with Shadow -->
-    <div class="text-box">
-        <p><span class="highlight">L O R E M   I P S U M   D O L O R   S I T   A M E T</span></p>
-        <p>
-            consectetur adipiscing elit. Eveniet beatae rerum quis culpa unde suscipit voluptatem error, 
-            labore expedita vitae nobis deleniti eos aliquam repellendus, reiciendis velit dolore, possimus nisi!
-        </p>
-    </div>
-
-    <!-- Favorite Programming Languages -->
-    <section class="fav-languages">
-        <h3>Our Favorite Programming Languages</h3>
-        <ul>
-            <li>Python</li>
-            <li>JavaScript</li>
-            <li>Java</li>
-            <li>C#</li>
-            <li>Ruby</li>
-        </ul>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 Web Development, Final Exam Practical.</p>
-    </footer>
-
-</body>
-</html>
