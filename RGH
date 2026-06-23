@@ -1,0 +1,87 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+char row1[ ]="I'm Arduino";
+char row2[ ]="Hello world!"; 
+int t = 500;
+LiquidCrystal_I2C lcd(0x3F,16,2); // set the LCD address to 0xeF
+void setup(){
+lcd.begin(16, 2);
+lcd.backlight();
+lcd.setCursor(0,0);
+lcd.print("Ayub");
+delay(1000);}
+void loop() {
+lcd.clear();
+lcd.setCursor(15,0);
+for (int positionCounter1 = 0; positionCounter1 < 26; positionCounter1++){
+lcd.scrollDisplayLeft(); 
+lcd.print(row1[positionCounter1]); 
+delay(t);  }
+lcd.setCursor(15,1); // set the cursor to column 15, line 1
+for (int positionCounter = 0; positionCounter < 26; positionCounter++){
+lcd.scrollDisplayLeft(); 
+lcd.print(row2[positionCounter]); 
+delay(t);  }
+}
+
+=============
+int flame=0;// select analog pin 0 for the sensor
+
+int val=0;// initialize variable
+
+void setup() {
+Serial.begin(9600);// set baud rate at “9600”
+} 
+ void loop() 
+{ 
+
+val=analogRead(flame);// read the analog value of the sensor 
+Serial.println(val);// output and display the analog value
+ delay(500); 
+}
+
+=========
+onst int SW_pin = 2; 
+const int X_pin = A0; 
+const int Y_pin = A1; 
+void setup() {
+pinMode(SW_pin, INPUT);
+digitalWrite(SW_pin, HIGH);
+Serial.begin(9600);}
+void loop() {
+Serial.print("Switch:  ");
+Serial.print(digitalRead(SW_pin));
+Serial.print("\t");
+Serial.print("X-axis: ");
+Serial.print(analogRead(X_pin));
+Serial.print("\t");
+Serial.print("Y-axis: ");
+Serial.println(analogRead(Y_pin));
+Serial.print("\t\n");
+delay(500); }
+
+==========
+onst int trigPin = 4;
+const int echoPin = 2;
+long duration; 
+// defines variables
+int distance;
+void setup() {
+pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+Serial.begin(9600); }               
+// Starts the serial communication
+void loop() {
+digitalWrite(trigPin, LOW); // Clears the trigPin
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH); // Sets the trigPin on HIGH state for 10 micro seconds
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+// Reads the echoPin, returns the sound wave travel time in microseconds
+duration = pulseIn(echoPin, HIGH);
+distance= duration*0.034/2; 
+// Calculating the distance
+Serial.print("Distance: ");
+Serial.println(distance);}
+
+===================================
