@@ -1,0 +1,63 @@
+1: 13
+2: 3
+3: Alcohol
+4: Class 1: 59, Class 2: 71, Class 3: 48
+5: {'C': 1, 'gamma': 'scale', 'kernel': 'rbf'}
+6: {'C': 1.83, 'gamma': 0.021, 'kernel': 'rbf'}
+
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV
+from sklearn.preprocessing import RobustScaler, PowerTransformer
+from sklearn.svm import SVC
+from sklearn.metrics import classification_report, confusion_matrix
+
+df = pd.read_csv('wine.csv')
+
+X = df.drop('customer_segment', axis=1)
+y = df['customer_segment']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+robust_scaler = RobustScaler()
+power_trans = PowerTransformer(method='yeo-johnson')
+
+X_train_temp = robust_scaler.fit_transform(X_train)
+X_train_final = power_trans.fit_transform(X_train_temp)
+
+X_test_temp = robust_scaler.transform(X_test)
+X_test_final = power_trans.transform(X_test_temp)
+
+linear_svm = SVC(kernel='linear', C=1.0)
+linear_svm.fit(X_train_final, y_train)
+
+rbf_svm = SVC(kernel='rbf', C=1.0, gamma='scale')
+rbf_svm.fit(X_train_final, y_train)
+
+y_pred_linear = linear_svm.predict(X_test_final)
+y_pred_rbf = rbf_svm.predict(X_test_final)
+
+print(confusion_matrix(y_test, y_pred_linear))
+print(classification_report(y_test, y_pred_linear))
+print(confusion_matrix(y_test, y_pred_rbf))
+print(classification_report(y_test, y_pred_rbf))
+
+param_grid = {
+    'C': [0.1, 1, 10, 100],
+    'gamma': ['scale', 'auto', 0.001, 0.01, 0.1, 1],
+    'kernel': ['rbf']
+}
+
+grid = GridSearchCV(SVC(), param_grid, refit=True, cv=5)
+grid.fit(X_train_final, y_train)
+
+param_distributions = {
+    'C': [0.1, 1, 10, 100],
+    'gamma': [0.001, 0.01, 0.1, 1],
+    'kernel': ['rbf']
+}
+
+random_search = RandomizedSearchCV(SVC(), param_distributions, n_iter=20, cv=5, random_state=42)
+random_search.fit(X_train_final, y_train)
+
+```
